@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      body { margin: 0; padding: 0;}
+      #board { width:400px; height:400px; background-color: rgb(213, 210, 216); display:flex; flex-direction: row; justify-content: space-between; align-content:space-between; flex-wrap: wrap; margin:0 auto; }
+      #board div:nth-child(n) { width:129px; height:129px; border: 2px solid rgb(155, 55, 68); }
+      .cell { color:red; font-size: 120px; text-align: center; line-height: 129px;}
+    </style>
+  </head>
+  <body>
+    <div id="board">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+    </div>
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+
+    let cells = document.querySelectorAll('#board div:nth-child(n)');
+    let arr = [0, 9, 8, 7, 6, 5, 4, 3, 10];
+       
+    function render() {
+        
+        let sign = 1;
+
+        for(let i = 0; i < cells.length; i++)
+        {
+            cells[i].innerText = '';
+            cells[i].addEventListener('click',() => 
+            {
+                if(sign) 
+                { 
+                   cells[i].innerText = "X";
+                   arr[i] = 1; 
+                   sign = 0; 
+                }
+                else
+                { 
+                    cells[i].innerText = 'O';
+                    arr[i] = 2; 
+                    sign = 1; 
+                }
+                //0,1,2,3,4,5,6,7,8
+                //三横
+                if(arr[0] == arr[1] && arr[0] == arr[2] && arr[1] == arr[2])
+                {
+                    alert(`${cells[0].innerText} is win!`);
+                }
+
+                if(arr[3] == arr[4] && arr[3] == arr[5] && arr[4] == arr[5])
+                {
+                    alert(`${cells[3].innerText} is win!`);
+                }
+
+                if(arr[6] == arr[7] && arr[7] == arr[8] && arr[6] == arr[8])
+                {
+                    alert(`${cells[6].innerText} is win!`);
+                }
+                
+                //三竖
+                if(arr[0] == arr[3] && arr[0] == arr[6] && arr[3] == arr[6])
+                {
+                    alert(`${cells[0].innerText} is win!`);
+                }
+
+                if(arr[1] == arr[4] && arr[1] == arr[7] && arr[4] == arr[7])
+                {
+                    alert(`${cells[1].innerText} is win!`);
+                }
+
+                if(arr[2] == arr[5] && arr[2] == arr[8] && arr[5] == arr[8])
+                {
+                    alert(`${cells[2].innerText} is win!`);
+                }
+
+                //主对角线
+                if(arr[0] == arr[4] && arr[0] == arr[8] && arr[4] == arr[8])
+                {
+                    alert(`${cells[0].innerText} is win!`);
+                }
+                
+                //副对角线
+                if(arr[2] == arr[4] && arr[2] == arr[6] && arr[4] == arr[6])
+                {
+                    alert(`${cells[2].innerText} is win!`);
+                }
+                
+            })
+        }
+    }
+    render();
+    //0,1,2,3,4,5,6,7,8
+    //i / 3 == 0
+    
+    
+    </script>
+</html>
